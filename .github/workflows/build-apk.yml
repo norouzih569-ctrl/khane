@@ -1,0 +1,55 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main, master]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install Pillow (for launcher icon)
+        run: pip install pillow
+
+      # پوشه android در مخزن نیست؛ هر بار با ابزار رسمی فلاتر ساخته می‌شود
+      - name: Generate Android platform files
+        run: flutter create --platforms=android --org ir.khanevar --project-name khane_budget .
+
+      - name: Patch Android (permissions, notifications, icon, app name)
+        run: python3 tool/patch_android.py
+
+      - run: flutter pub get
+
+      - name: Build release APK
+        run: flutter build apk --release --no-shrink
+
+      - name: Rename APK
+        run: cp build/app/outputs/flutter-apk/app-release.apk khane-budget.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: khane-budget-apk
+          path: khane-budget.apk
+
+      - name: Publish GitHub Release (only on version tags)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: khane-budget.apk

@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:flutter/foundation.dart';
+// فقط ChangeNotifier: وگرنه نام «Category» با کلاس Category خود Flutter تداخل می‌کند
+import 'package:flutter/foundation.dart' show ChangeNotifier;
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

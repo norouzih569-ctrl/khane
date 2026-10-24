@@ -1,0 +1,40 @@
+name: khane_budget
+description: مدیریت درآمد و هزینه‌های خانه، اقساط، یادآوری و گزارش
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+  crypto: ^3.0.5
+  provider: ^6.1.2
+  sqflite: ^2.4.1
+  path: ^1.9.0
+  shamsi_date: ^1.1.1
+  shared_preferences: ^2.3.2
+  flutter_local_notifications: ^19.2.1
+  timezone: ^0.10.0
+  path_provider: ^2.1.5
+  share_plus: ^10.1.4
+  file_picker: ^8.1.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icon/icon.png
+  fonts:
+    - family: Vazirmatn
+      fonts:
+        - asset: assets/fonts/Vazirmatn-Regular.ttf
+        - asset: assets/fonts/Vazirmatn-Bold.ttf
+          weight: 700
